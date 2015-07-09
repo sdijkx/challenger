@@ -3,10 +3,11 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     shell = require('gulp-shell'),
     traceur = require('gulp-traceur'),
-    webserver = require('gulp-webserver');
+    webserver = require('gulp-webserver'),
+    merge = require('merge-stream');
 
 // run init tasks
-gulp.task('default', ['dependencies', 'angular2', 'js', 'html', 'css']);
+gulp.task('default', ['dependencies', 'angular2', 'js', 'html', 'css', 'docker']);
 
 // run development task
 gulp.task('dev', ['watch', 'serve']);
@@ -92,3 +93,14 @@ gulp.task('css', function () {
   return gulp.src('src/**/*.css')
     .pipe(gulp.dest('build'))
 });
+
+// copy to docker
+gulp.task('docker', ['dependencies', 'angular2', 'js', 'html', 'css'], function (cb) {
+  var serverFiles =  gulp.src([
+      'server.js',
+      'package.json',
+  ]).pipe(gulp.dest('docker/server'))
+    var siteFiles = gulp.src('build/**/*.*').pipe(gulp.dest('docker/site'))
+    return merge(serverFiles, siteFiles);
+});
+

@@ -4,6 +4,7 @@
   "dependencies": {
     "angular2": "2.0.0-alpha.26",
     "es6-module-loader": "0.16.6",
+    "http-proxy": "^1.11.1",
     "reflect-metadata": "0.1.0",
     "systemjs": "0.16.11"
   },
